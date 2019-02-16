@@ -9,4 +9,4 @@ User infomation
 | name | 用户名 | utf-8字符串 | 唯一，可更改，长度<=10 |
 | passw | 密码 | 字符串 | 密码加盐哈希[^1]|
 
-[^1]: 形如"{salt}${hash}"，其中"salt"为随机生成的盐、"hash"为加盐哈希
+^1: 形如"{salt}${hash}"，其中"salt"为随机生成的盐、"hash"为加盐哈希
