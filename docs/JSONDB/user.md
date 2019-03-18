@@ -6,6 +6,7 @@
 {
     "_id": 0,
     "name": "用户名",
+    "password": "$seed$sha256",
     "email": "i@example.com",
     "info": {},
     "article": [],
@@ -22,6 +23,10 @@
 > `name`: string
 
 用户名 _UTF-8 无重名，无特殊字符_
+
+> `password`: string
+
+密码
 
 > `email`: string
 
@@ -51,11 +56,17 @@
 
 ```json
 {
+    "favicon": "",
     "birth": "1970-01-01",
     "signup": "2020-01-01 00:01",
-    "sex": "male"
+    "sex": "male",
+    "last_login": "2020-01-01 00:01"
 }
 ```
+
+> `favicon`: image
+
+头像
 
 > `birth`: date
 
@@ -68,3 +79,7 @@
 > `sex`: "male|female|other"
 
 性别
+
+> `last_login`: date_time
+
+最后登陆时间
