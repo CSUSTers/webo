@@ -52,3 +52,13 @@ body:
 > `status`: "ok|error"
 
 创建状态
+
+> `errcode`: uint
+
+成功时无视此字段，详见 [`Error Code`](#Error_Code)
+
+> `errmsg`: string
+
+自然语言描述的错误信息
+
+### Error_Code
