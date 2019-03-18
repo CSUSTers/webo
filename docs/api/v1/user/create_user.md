@@ -34,3 +34,21 @@ body:
 > `info`: Info
 
 用户信息
+
+## Response
+
+> Type: `json`
+
+body:
+
+```json
+{
+    "status": "",
+    "errcode": 0,
+    "errmsg": ""
+}
+```
+
+> `status`: "ok|error"
+
+创建状态
