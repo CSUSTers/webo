@@ -63,6 +63,7 @@
 {
     "_id": 1,
     "user": 0,
+    "time": "2020-01-01 00:01",
     "reply": 0,
     "text": ""
 }
@@ -75,6 +76,10 @@
 > `user`: User._id
 
 评论用户ID，见 [User](./user.md)
+
+> `time`: date_time
+
+发表时间
 
 > `reply`: uint32
 
