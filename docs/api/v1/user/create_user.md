@@ -2,44 +2,37 @@
 
 ## Request
 
-> Method: `POST`
->
-> Path: `/create`
->
-> Type: `json`
+-   Method: `POST`
 
-body:
+-   URL: `/create`
+
+-   Type: `json`
+
+-   Body:
+
 
 ```json
 {
-    "name": "用户名",
+    "name": "name",
     "password": "password",
     "email": "i@example.com",
     "info": {}
 }
 ```
 
-> `name`: string
+| Field    | Type   | Required | Note     |
+| -------- | ------ | -------- | -------- |
+| name     | string | true     | 用户名   |
+| password | string | true     | 密码     |
+| email    | string | true     | 邮箱     |
+| info     | info   |          | 用户信息 |
 
-用户名
-
-> `password`: string
-
-密码
-
-> `email`: string
-
-注册邮箱
-
-> `info`: Info
-
-用户信息
 
 ## Response
 
-> Type: `json`
+-   Type: `json`
 
-body:
+-   body:
 
 ```json
 {
@@ -49,17 +42,12 @@ body:
 }
 ```
 
-> `status`: "ok|error"
+| Field   | Type    | Note                                               |
+| ------- | ------- | -------------------------------------------------- |
+| status  | string  | 创建状态                                           |
+| errcode | integer | 成功时无视此字段，详见 [`Error Code`](#Error_Code) |
+| errmsg  | string  | 自然语言描述的错误信息                             |
 
-创建状态
 
-> `errcode`: uint
-
-成功时无视此字段，详见 [`Error Code`](#Error_Code)
-
-> `errmsg`: string
-
-自然语言描述的错误信息
 
 ### Error_Code
-
