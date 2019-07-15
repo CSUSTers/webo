@@ -16,41 +16,17 @@
 }
 ```
 
-> `_id`: uint64
-
-用户唯一指定ID
-
-> `name`: string
-
-用户名 _UTF-8 无重名，无特殊字符_
-
-> `password`: string
-
-密码
-
-> `email`: string
-
-注册邮箱
-
-> `info`: InfoObject
-
-用户信息，见 [`InfoObject`](#InfoObject)
-
-> `article`: [Article._id]
-
-用户发布的文章的ID，见 [`Article`](./article.md)
-
-> `webo`: [WebO._id]
-
-用户发布的WebO的ID，见 [`WebO`](./webo.md)
-
-> `follower`: uint32
-
-关注该用户的人数
-
-> `following`: uint32
-
-该用户关注的人数
+| Field     | Type                                  | Note                              |
+| --------- | ------------------------------------- | --------------------------------- |
+| _id       | uint64                                | 用户唯一指定ID                    |
+| name      | string                                | 用户名 _UTF-8 无重名，无特殊字符_ |
+| password  | string                                | 密码                              |
+| email     | string                                | 邮箱                              |
+| info      | [`InfoObject`](#InfoObject)           | 用户信息                          |
+| article   | list of [`Article._id`](./article.md) | 用户发布的文章的ID                |
+| webo      | list of [`WebO._id`](./webo.md)       | 用户发布的WebO的ID                |
+| follower  | uint32                                | 关注该用户的人数                  |
+| following | uint32                                | 该用户关注的人数                  |
 
 ## InfoObject
 
@@ -59,27 +35,15 @@
     "favicon": "",
     "birth": "1970-01-01",
     "signup": "2020-01-01 00:01",
-    "sex": "male",
+    "gender": "male",
     "last_login": "2020-01-01 00:01"
 }
 ```
 
-> `favicon`: image
-
-头像
-
-> `birth`: date
-
-生日
-
-> `signup`: date_time
-
-注册时间
-
-> `sex`: "male|female|other"
-
-性别
-
-> `last_login`: date_time
-
-最后登陆时间
+| Field      | Type                    | Note         |
+| ---------- | ----------------------- | ------------ |
+| favicon    | image                   | 头像         |
+| birth      | date                    | 生日         |
+| signup     | date_time               | 注册时间     |
+| gender     | "male\| female\| other" | 性别         |
+| last_login | date_time               | 最后登录时间 |
