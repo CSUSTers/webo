@@ -1,0 +1,22 @@
+{
+  "name": "webo",
+  "version": "1.0.0",
+  "description": "The yidongkaifa Big homework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"women meiyou ceshi!\" && false"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CSUSTers/webo.git"
+  },
+  "keywords": [
+    "webo"
+  ],
+  "author": "csusters",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CSUSTers/webo/issues"
+  },
+  "homepage": "https://github.com/CSUSTers/webo#readme"
+}
