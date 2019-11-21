@@ -18,5 +18,11 @@
   "bugs": {
     "url": "https://github.com/CSUSTers/webo/issues"
   },
-  "homepage": "https://github.com/CSUSTers/webo#readme"
+  "homepage": "https://github.com/CSUSTers/webo#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "node": "^12.0.0"
+  }
 }
