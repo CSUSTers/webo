@@ -32,7 +32,7 @@ function makeUserResource(repository) {
     router.post("/", async (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
-        const newUser = repository.save(new User(username, password));
+        const newUser = await repository.save(new User(username, password));
         res.statusCode = 201
         res.json({ at: `/user/${newUser.id}`, user: stripUser(newUser) })
     })
