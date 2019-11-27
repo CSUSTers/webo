@@ -2,8 +2,8 @@ const fs = require('fs');
 const fspath = require('path');
 
 class DB {
-    constructor(file, timeout=100) {
-        this.data = {};
+    constructor(file, timeout=100, empty={}) {
+        this.data = empty;
         if (!fspath.isAbsolute(file)) {
             file = fspath.join(fspath.dirname(__filename), file);
         }
@@ -13,7 +13,7 @@ class DB {
         if (fs.existsSync(file)) {
             this.data = JSON.parse(fs.readFileSync(file).toString());
         } else {
-            this.data = {};
+            this.data = empty;
             this.write();
         }
         setTimeout(this.daemon.bind(this), this.timeout);
