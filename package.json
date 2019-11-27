@@ -2,9 +2,10 @@
   "name": "webo",
   "version": "1.0.0",
   "description": "The yidongkaifa Big homework",
-  "main": "index.js",
+  "main": "src/bin/www",
   "scripts": {
-    "test": "echo \"women meiyou ceshi!\" && false"
+    "test": "echo \"women meiyou ceshi!\" && false",
+    "start": "node src/bin/www"
   },
   "repository": {
     "type": "git",
