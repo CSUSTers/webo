@@ -4,9 +4,24 @@
  * Module dependencies.
  */
 
-var app = require('../web/app');
+var makeApp = require('../web/app');
 var debug = require('debug')('webo:server');
 var http = require('http');
+var Repo = require('../domain/user/inmemrepo')
+
+const registery = {
+    userRepo: new Repo({
+        1: {id: 1, 
+            username: '小明',
+            checkPassword(pw) {
+                return pw === "123456"
+            }}
+    }),
+    tokenGen({ username }) {
+        return username + " is a lolicon, hentai!"
+    }
+};
+const app = makeApp(registery)
 
 /**
  * Get port from environment and store in Express.

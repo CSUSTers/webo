@@ -1,30 +1,39 @@
 const express = require("express")
 const createError = require("http-errors")
 const { tryAsync } = require("./utils/asyncio")
-const app = express();
+const makeUserResource = require('./resources/user')
+const makeAuthorizeResource = require('./resources/authorize')
 
-app.get("/", async (req, res) => {
-    const promise = Promise.resolve("promise");
-    res.send(`Hello, This is '${await promise}' for you.`);
-    res.end();
-})
+function makeApp(registery) {
+    const app = express();
+    app.use(express.json());
+    app.use("/user", makeUserResource(registery.userRepo))
+    app.use("/authorize", makeAuthorizeResource(registery.userRepo, registery.tokenGen))
 
-app.post("/", tryAsync(async (req, res) => {
-    const promise = Promise.resolve("promise");
-    const body = JSON.parse(req.body)
-    res.json({ ...body, promise: await promise })
-    res.end()
-}))
+    app.get("/", async (req, res) => {
+        const promise = Promise.resolve("promise");
+        res.send(`Hello, This is '${await promise}' for you.`);
+        res.end();
+    })
 
-app.use((req, res, next) => {
-    next(createError(404));
-});
+    app.post("/", tryAsync(async (req, res) => {
+        const promise = Promise.resolve("promise");
+        const body = req.body;
+        res.json({ ...body, promise: await promise })
+        res.end()
+    }))
 
-app.use((err, req, res, next) => {
-    res.type("text/plain;charset=utf-8")
-    res.status(err.status || 500);
-    res.send(err.message)
-    res.end()
-});
+    app.use((req, res, next) => {
+        next(createError(404));
+    });
 
-module.exports = app
+    app.use((err, req, res, next) => {
+        res.type("text/plain;charset=utf-8")
+        res.status(err.status || 500);
+        res.send(err.message)
+        res.end()
+    });
+    return app;
+}
+
+module.exports = makeApp

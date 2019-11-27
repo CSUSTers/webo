@@ -13,7 +13,7 @@ function async(f) {
  */
 function tryAsync(f) {
     return (req, res, next) => {
-        f(req, res).catch(e => next(e))
+        f(req, res, next).catch(e => next(e))
     }
 }
 
