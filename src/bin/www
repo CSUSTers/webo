@@ -7,21 +7,22 @@
 var makeApp = require('../web/app');
 var debug = require('debug')('webo:server');
 var http = require('http');
-var Repo = require('../domain/user/inmemrepo')
+var Repo = require('../domain/user/inmemrepo');
+const JwtTokenGen = require("../../src/web/utils/jwt");
 
-const registery = {
+const registry = {
     userRepo: new Repo({
-        1: {id: 1, 
+        1: {
+            id: 1,
             username: '小明',
             checkPassword(pw) {
                 return pw === "123456"
-            }}
+            }
+        }
     }),
-    tokenGen({ username }) {
-        return username + " is a lolicon, hentai!"
-    }
+    token: JwtTokenGen.withSecretAndExpireTime("hello", 30)
 };
-const app = makeApp(registery)
+const app = makeApp(registry);
 
 /**
  * Get port from environment and store in Express.

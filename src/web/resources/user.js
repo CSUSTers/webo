@@ -1,20 +1,24 @@
 /**
  * User Schema: {
- *     username: String
+ *     username: String,
  * }
- * 
- * with method: 
- *  checkPassword(String)
+ *
+ * with method:
+ *  checkPassword(String) : boolean
+ *  lastTimePasswordChanged() : number
  */
 
-const express = require('express')
+const express = require('express');
 
-const User = function (n, p){
-    this.username = n;
-    this.password = p;
-}
-User.prototype.checkPassword = function(pw) {
-    return pw === this.password;
+class User {
+    constructor(n, p) {
+        this.username = n;
+        this.password = p;
+    }
+
+    checkPassword(pw) {
+        return pw === this.password;
+    };
 }
 
 function stripUser({ id, username }) {
@@ -28,15 +32,15 @@ function makeUserResource(repository) {
         const entity = await repository.byId(id);
         res.json(stripUser(entity));
         res.end()
-    })
+    });
     router.post("/", async (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
         const newUser = await repository.save(new User(username, password));
-        res.statusCode = 201
-        res.json({ at: `/user/${newUser.id}`, user: stripUser(newUser) })
-    })
+        res.statusCode = 201;
+        res.json({at: `/user/${newUser.id}`, user: stripUser(newUser)})
+    });
     return router;
 }
 
-module.exports = makeUserResource
+module.exports = makeUserResource;

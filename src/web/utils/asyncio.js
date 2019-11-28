@@ -3,8 +3,8 @@
  * @param {Function} f 要转换的函数。
  */
 function async(f) {
-    return new Promise((ok, err) => 
-        (...args) => Function.apply(this, [args, (error, data) => error ? err(error) : ok(data)]))
+    return (...args) => new Promise((ok, err) =>
+        Function.apply(this, [args, (error, data) => error ? err(error) : ok(data)]))
 }
 
 /**

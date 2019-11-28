@@ -1,11 +1,11 @@
 class Repo {
     constructor(defaultValues) {
-        this.inner = defaultValues || {}
-        this.nextId = 10000
+        this.inner = defaultValues || {};
+        this.nextId = 10000;
     }
 
     byId(id) {
-        return this.inner[id]
+        return this.inner[id];
     }
 
     save(newEntity) {
@@ -16,4 +16,4 @@ class Repo {
     }
 }
 
-module.exports = Repo
+module.exports = Repo;
