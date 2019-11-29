@@ -2,6 +2,7 @@ const JwtTokenGen = require("../../src/web/utils/jwt");
 const request = require('supertest');
 const makeApp = require('../../src/web/app');
 const Repo = require('../../src/domain/user/inmemrepo');
+const JwtErrors = require("../../src/web/utils/jwt-errors");
 
 const registery = {
     userRepo: new Repo({
@@ -16,7 +17,7 @@ const registery = {
             }
         }
     }),
-    token: JwtTokenGen.withSecretAndExpireTime("hello", 30)
+    token: JwtTokenGen.withSecretAndExpireTime("hello", 1)
 };
 const app = makeApp(registery);
 app.set("env", "development");
@@ -84,6 +85,27 @@ describe("用户实体资源的测试", () => {
             })
     });
 
+    test("鉴权 Token 过期之后不能使用。", (done) => {
+        request(app)
+            .get("/authorize/1?password=123456")
+            .expect(200)
+            .expect("Content-Type", /json/)
+            .then(response => {
+                return new Promise(ok => setTimeout(ok, 1100))
+                    .then(() => {
+                            const {myToken} = response.body.token;
+                            request(app)
+                                .get(`/authorize/test/${myToken}`)
+                                .then(response => {
+                                    expect(response.status).toBe(403);
+                                    expect(response.body.errorType).toBe(JwtErrors.EXPIRED)
+                                })
+                                .then(done);
+                        }
+                    )
+            })
+    });
+
     test("获得鉴权 Token 后，可以刷新 Token。", (done) => {
         request(app)
             .get("/authorize/1?password=123456")
@@ -126,7 +148,10 @@ describe("用户实体资源的测试", () => {
                     })
                     .then(() => request(app)
                         .get(`/authorize/refreshed?refreshToken=${refreshToken}`)
-                        .then(response => expect(response.status).toBe(403))
+                        .then(response => {
+                            expect(response.status).toBe(403);
+                            expect(response.body.errorType).toBe(JwtErrors.USE_USED);
+                        })
                         .then(done))
             })
     })
