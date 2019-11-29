@@ -27,6 +27,17 @@ class DB {
         setTimeout(this.daemon.bind(this), this.timeout);
     }
 
+    apply(callback) {
+        callback(this);
+        return this;
+    }
+
+    changeData(callback) {
+        callback(this.data);
+        this.changed = true;
+        return this;
+    }
+
     write() {
         fs.writeFileSync(this.file, JSON.stringify(this.data, null, 4));
     }
