@@ -1,5 +1,4 @@
 const express = require('express');
-const {tryAsync} = require('../utils/asyncio');
 const JwtErrors = require('../utils/jwt-errors');
 
 function nocache(req, res, next) {
@@ -50,7 +49,7 @@ function makeAuthorizeResource(repository, codec) {
         }
     });
 
-    router.get("/:id", tryAsync(async (req, res, next) => {
+    router.get("/:id", async (req, res, next) => {
         try {
             const id = req.params.id;
             const password = req.query.password;
@@ -65,7 +64,7 @@ function makeAuthorizeResource(repository, codec) {
         } catch (e) {
             next(e)
         }
-    }));
+    });
 
     router.get("/test/:token", async (req, res, next) => {
         try {

@@ -95,6 +95,8 @@ class JwtTokenGen {
         const {id, createTime} = this._verify(token, this.secret);
         return {id, createTime};
     }
+
+
 }
 
 module.exports = JwtTokenGen;

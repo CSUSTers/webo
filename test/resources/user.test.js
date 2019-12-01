@@ -12,9 +12,7 @@ const registery = {
             checkPassword(pw) {
                 return pw === "123456"
             },
-            lastTimePasswordChanged() {
-                return 0;
-            }
+            lastTimePasswordChanged: () => 0
         }
     }),
     token: JwtTokenGen.withSecretAndExpireTime("hello", 1)
@@ -154,5 +152,66 @@ describe("用户实体资源的测试", () => {
                         })
                         .then(done))
             })
+    });
+
+    test("用户可以使用 token 来修改个人信息", done => {
+        const newName = Math.random().toString();
+        request(app)
+            .get("/authorize/1?password=123456")
+            .expect(200)
+            .expect("Content-Type", /json/).then(res => {
+            request(app)
+                .patch(`/user/${1}`)
+                .set("Authorization", res.body.token.myToken)
+                .send({username: newName})
+                .expect(202)
+                .then(() =>
+                    request(app)
+                        .get("/user/1")
+                        .expect(200)
+                        .expect("Content-Type", /json/)
+                        .then(result => {
+                            expect(result.body.username).toBe(newName);
+                            done();
+                        })
+                )
+        });
+    });
+
+    test("用户没有 token 就不能修改信息", done => {
+        const newName = Math.random().toString();
+        request(app)
+            .patch(`/user/${1}`)
+            .send({username: newName})
+            .expect(403)
+            .then(() =>
+                request(app)
+                    .get("/user/1")
+                    .expect(200)
+                    .expect("Content-Type", /json/)
+                    .then(result => {
+                        expect(result.body.username).not.toBe(newName);
+                        done();
+                    })
+            )
+    });
+
+    test("用户使用错误的 token 不能修改信息", done => {
+        const newName = Math.random().toString();
+        request(app)
+            .patch(`/user/${1}`)
+            .send({username: newName})
+            .set("Authorization", "meow~")
+            .expect(403)
+            .then(() =>
+                request(app)
+                    .get("/user/1")
+                    .expect(200)
+                    .expect("Content-Type", /json/)
+                    .then(result => {
+                        expect(result.body.username).not.toBe(newName);
+                        done();
+                    })
+            )
     })
 });

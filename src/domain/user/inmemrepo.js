@@ -9,9 +9,13 @@ class Repo {
     }
 
     save(newEntity) {
-        newEntity.id = this.nextId;
-        this.inner[this.nextId] = newEntity;
-        this.nextId ++;
+        if (newEntity.id === undefined) {
+            newEntity.id = this.nextId;
+            this.inner[this.nextId] = newEntity;
+            this.nextId++;
+            return newEntity;
+        }
+        this.inner[newEntity.id] = newEntity;
         return newEntity;
     }
 }

@@ -3,6 +3,7 @@ const createError = require("http-errors");
 const {tryAsync} = require("./utils/asyncio");
 const makeUserResource = require('./resources/user');
 const makeAuthorizeResource = require('./resources/authorize');
+const TokenService = require("./utils/token-service");
 
 /*
     registry schema: {
@@ -13,9 +14,10 @@ const makeAuthorizeResource = require('./resources/authorize');
  */
 function makeApp(registry) {
     const app = express();
+    const tokenService = new TokenService(registry.token, registry.userRepo);
     app.set("registry", registry);
     app.use(express.json());
-    app.use("/user", makeUserResource(registry.userRepo));
+    app.use("/user", makeUserResource(registry.userRepo, tokenService));
     app.use("/authorize", makeAuthorizeResource(registry.userRepo, registry.token));
 
     app.get("/", async (req, res) => {
