@@ -183,7 +183,7 @@ describe("用户实体资源的测试", () => {
         request(app)
             .patch(`/user/${1}`)
             .send({username: newName})
-            .expect(403)
+            .expect(401)
             .then(() =>
                 request(app)
                     .get("/user/1")

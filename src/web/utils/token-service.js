@@ -53,6 +53,38 @@ class TokenService {
             return TokenAuthorizeResult.fromError(e.errorType || Errors.OTHER)
         }
     }
+
+    allowIf(f) {
+        return async (req, res, next) => {
+            if (req.headers.authorization === undefined) {
+                res.statusCode = 401;
+                res.json({
+                    status: 401,
+                    message: "No authorization found."
+                });
+                res.end();
+                return;
+            }
+
+            const token = await this.token(req.headers.authorization);
+            if (token.isError() || !f(token, req)) {
+                res.statusCode = 403;
+                res.json({
+                    status: 403,
+                    errorType: token.errorCode,
+                    message: "Failed to Authorization."
+                });
+                res.end();
+                return;
+            }
+
+            next()
+        }
+    }
+
+    allowIfIsFor(f) {
+        return this.allowIf((t, req) => t.isFor(f(req)));
+    }
 }
 
 module.exports = TokenService;

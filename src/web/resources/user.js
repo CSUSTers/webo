@@ -40,24 +40,9 @@ function makeUserResource(repository, tokenService) {
         res.statusCode = 201;
         res.json({at: `/user/${newUser.id}`, user: stripUser(newUser)})
     });
+
+    router.patch("/:id", tokenService.allowIfIsFor(req => req.params.id));
     router.patch("/:id", async (req, res, next) => {
-        if (req.headers.authorization === undefined) {
-            next({
-                status: 403,
-                message: "No authorization found."
-            });
-            return;
-        }
-
-        const token = await tokenService.token(req.headers.authorization);
-        if (!token.isFor(req.params.id)) {
-            next({
-                status: 403,
-                message: "No authorization found."
-            });
-            return;
-        }
-
         try {
             res.statusCode = 202;
             const id = req.params.id;
